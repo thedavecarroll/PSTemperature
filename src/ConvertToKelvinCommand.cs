@@ -1,7 +1,7 @@
 ﻿using System.Management.Automation;
 
 namespace PSTemperature
-{    
+{
     [Cmdlet(VerbsData.ConvertTo, "Kelvin", DefaultParameterSetName = "Fahrenheit")]
     public class ConvertToKelvinCommand : PSCmdlet
     {

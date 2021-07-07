@@ -1,6 +1,4 @@
-﻿
-
-namespace PSTemperature
+﻿namespace PSTemperature
 {
     public enum TemperatureUnit
     {
@@ -109,18 +107,14 @@ namespace PSTemperature
 
         public decimal ConvertTo(TemperatureUnit unit, int Precision)
         {
-            switch (unit)
+            return unit switch
             {
-                case TemperatureUnit.C:
-                    return decimal.Round(ConvertTo(unit), Precision);
-                case TemperatureUnit.F:
-                    return decimal.Round(ConvertTo(unit), Precision);
-                case TemperatureUnit.K:
-                    return decimal.Round(ConvertTo(unit), Precision);
-                case TemperatureUnit.R:
-                    return decimal.Round(ConvertTo(unit), Precision);
-            }
-            return 0;
+                TemperatureUnit.C => decimal.Round(ConvertTo(unit), Precision),
+                TemperatureUnit.F => decimal.Round(ConvertTo(unit), Precision),
+                TemperatureUnit.K => decimal.Round(ConvertTo(unit), Precision),
+                TemperatureUnit.R => decimal.Round(ConvertTo(unit), Precision),
+                _ => 0,
+            };
         }
 
         public string ConvertToString(TemperatureUnit unit)
@@ -159,22 +153,17 @@ namespace PSTemperature
 
         public static bool IsBelowAbsoluteZero(decimal value, TemperatureUnit unit)
         {
-            switch (unit)
+            return unit switch
             {
-                case TemperatureUnit.F:
-                    return value < -459.67M;
-                case TemperatureUnit.C:
-                    return value < -273.15M;
-                case TemperatureUnit.K:
-                    return value < 0M;
-                case TemperatureUnit.R:
-                    return value < 0M;
-                default:
-                    return false;
-            }
+                TemperatureUnit.F => value < -459.67M,
+                TemperatureUnit.C => value < -273.15M,
+                TemperatureUnit.K => value < 0M,
+                TemperatureUnit.R => value < 0M,
+                _ => false,
+            };
         }
 
-        private decimal GetTemperatureValue(decimal value, TemperatureUnit unit)
+        private static decimal GetTemperatureValue(decimal value, TemperatureUnit unit)
         {
             if (IsBelowAbsoluteZero(value, unit))
             {
@@ -189,31 +178,20 @@ namespace PSTemperature
         private string GetStateComment()
         {
             decimal celsius = ConvertTo(TemperatureUnit.C);
-            switch (celsius)
+            return celsius switch
             {
-                case -273.15M:
-                    return "Absolute zero";
-                case -195.8M:
-                    return "Boiling point of liquid nitrogen";
-                case -78:
-                    return "Sublimation point of dry ice";
-                case -40:
-                    return "Intersection of Celsius and Fahrenheit scales";
-                case 0:
-                    return "Freezing point";
-                case 20:
-                    return "Room temperature (NIST standard)";
-                case 37:
-                    return "Normal human body temperature (average)";
-                case 100:
-                    return "Boiling point";
-                case 233:
-                    return "Fahrenheit 451 - the temperature at which book paper catches fire and burns";
-                case 5505:
-                    return "Surface of the Earth's sun";
-                default:
-                    return null;
-            }
+                -273.15M => "Absolute zero",
+                -195.8M => "Boiling point of liquid nitrogen",
+                -78 => "Sublimation point of dry ice",
+                -40 => "Intersection of Celsius and Fahrenheit scales",
+                0 => "Freezing point",
+                20 => "Room temperature (NIST standard)",
+                37 => "Normal human body temperature (average)",
+                100 => "Boiling point",
+                233 => "Fahrenheit 451 - the temperature at which book paper catches fire and burns",
+                5505 => "Surface of the Earth's sun",
+                _ => null,
+            };
         }
     }
 }
